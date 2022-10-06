@@ -2,6 +2,11 @@
 Script containing helper functions for sentiment analysis
 """
 import csv
+import os
+import shutil
+
+from transformers import AutoModelForSequenceClassification
+from transformers import AutoTokenizer, AutoConfig
 
 
 def preprocess_roberta(text: str):
@@ -11,6 +16,19 @@ def preprocess_roberta(text: str):
         t = 'http' if t.startswith('http') else t
         new_text.append(t)
     return " ".join(new_text)
+
+
+def load_roberta():
+    # Prepare ROBERTA model
+    if os.path.isdir("./cardiffnlp/"):
+        shutil.rmtree("./cardiffnlp/")
+    MODEL_NAME = f"cardiffnlp/twitter-xlm-roberta-base-sentiment"
+    TOKENIZER = AutoTokenizer.from_pretrained(MODEL_NAME)
+    CONFIG = AutoConfig.from_pretrained(MODEL_NAME)
+    MODEL = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME)
+    if not os.path.isdir("./cardiffnlp/"):
+        MODEL.save_pretrained(MODEL_NAME)
+    return MODEL, TOKENIZER, CONFIG
 
 
 def corpus_from_csv(path: str) -> list[dict]:
