@@ -22,13 +22,13 @@ def load_roberta():
     # Prepare ROBERTA model
     if os.path.isdir("./cardiffnlp/"):
         shutil.rmtree("./cardiffnlp/")
-    MODEL_NAME = f"cardiffnlp/twitter-xlm-roberta-base-sentiment"
-    TOKENIZER = AutoTokenizer.from_pretrained(MODEL_NAME)
-    CONFIG = AutoConfig.from_pretrained(MODEL_NAME)
-    MODEL = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME)
+    model_name = f"cardiffnlp/twitter-xlm-roberta-base-sentiment"
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    config = AutoConfig.from_pretrained(model_name)
+    model = AutoModelForSequenceClassification.from_pretrained(model_name)
     if not os.path.isdir("./cardiffnlp/"):
-        MODEL.save_pretrained(MODEL_NAME)
-    return MODEL, TOKENIZER, CONFIG
+        model.save_pretrained(model_name)
+    return model, tokenizer, config
 
 
 def corpus_from_csv(path: str) -> list[dict]:
