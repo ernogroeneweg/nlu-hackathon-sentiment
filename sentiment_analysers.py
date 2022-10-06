@@ -12,12 +12,13 @@ from msrest.authentication import CognitiveServicesCredentials
 
 from helpers import preprocess_roberta, load_roberta
 
+MODEL, TOKENIZER, CONFIG = load_roberta()
+
 
 def roberta_sentiment(user_input: str) -> dict:
-    model, tokenizer, config = load_roberta()
     text = preprocess_roberta(user_input)
-    encoded_input = tokenizer(text, return_tensors='pt')
-    output = model(**encoded_input)
+    encoded_input = TOKENIZER(text, return_tensors='pt')
+    output = MODEL(**encoded_input)
     scores = output[0][0].detach().numpy()
     scores = softmax(scores)
 
@@ -25,7 +26,7 @@ def roberta_sentiment(user_input: str) -> dict:
     ranking = ranking[::-1]
     result = {}
     for i in range(scores.shape[0]):
-        label = config.id2label[ranking[i]].lower()
+        label = CONFIG.id2label[ranking[i]].lower()
         score = scores[ranking[i]]
         result[label] = np.round(float(score), 4)
 
