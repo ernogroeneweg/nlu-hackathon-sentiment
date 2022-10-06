@@ -7,7 +7,6 @@ import numpy as np
 from dotenv import load_dotenv
 
 from transformers import AutoModelForSequenceClassification
-#from transformers import TFAutoModelForSequenceClassification
 from transformers import AutoTokenizer, AutoConfig
 
 from scipy.special import softmax

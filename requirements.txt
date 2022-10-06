@@ -1,0 +1,7 @@
+azure-cognitiveservices-language-luis
+json
+numpy
+python-dotenv
+scipy
+tabulate
+transformers
